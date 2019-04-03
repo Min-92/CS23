@@ -90,10 +90,10 @@ for(int i = 0; i < 2; i++) {
 
 ## 이진덧셈기
 ### 배경지식
-1. 반가산기
-![halfadder](.img/halfadder.png)
-2. 전가산기
-![fulladder](.img/fulladder.png)
+1. 반가산기  
+![halfadder](./img/halfadder.png)
+2. 전가산기  
+![fulladder](./img/fulladder.png)
 
 ### 미션1
 - boolean 타입으로 동작하는 이진 덧셈기를 논리게이트 동작만으로 구현합니다.
