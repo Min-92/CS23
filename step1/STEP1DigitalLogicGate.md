@@ -184,3 +184,142 @@ public class adder {
 	}
 }
 ~~~
+
+### 미션2
+앞에서 만든 전가산기 반가산기를 이용해서 BOOL타입으로 동작하는 8비트 덧셈기를 구현한다.
+- 바이트 덧셈(byteadder) : 8비트를 BOOL타입 배열로 2개를 입력 받는다.
+- 자리올림(carry) + 전체 합(sum)을 순서대로 배열로 담아서 리턴하는 함수를 구현한다.
+- 입력으로 들어오는 byteA, byteB 배열의 길이는 같다고 가정한다.
+- 입력으로 들어오는 byteA 비트 순서는 낮은 자리가 배열의 앞쪽에 오도록 표현한다. 배열의 순서대로 보면 이진수가 뒤집혀 있는 것처럼 보인다고 가정한다.
+
+*이진수 1100 = [ 0, 0, 1, 1 ] 이진수 0101 = [ 1, 0, 1, 0 ]*
+
+~~~
+public class binaryAdder {
+
+	public static boolean[] halfadder(boolean bitA, boolean bitB) {
+	        boolean[] answer = new boolean[2];
+	        answer[0] = bitA&&bitB;                // carry
+	        answer[1] = !bitA&&bitB||bitA&&!bitB;  // sum
+
+	        return answer;
+	    }
+
+	  public static boolean[] fulladder(boolean bitA, boolean bitB, boolean carry) {
+	        boolean[] answer = new boolean[2];
+	        answer[0] = bitA&&bitB||bitB&&carry||bitA&&carry ;
+	        answer[1] = bitA&&bitB&&carry||!bitA&&!bitB&&carry||!bitA&&bitB&&!carry||bitA&&!bitB&&!carry;
+
+	        return answer;
+	    }
+
+
+	public static boolean[] byteadder(boolean[] byteA, boolean[] byteB) {
+	        boolean[] answer = new boolean[byteA.length+1];
+	        int len = byteA.length;
+	        boolean c = true;
+
+	        for(int i = 0 ; i <= len; i++) {
+	        	if(i == 0) {
+	        		answer[i] = halfadder(byteA[i],byteB[i])[1];
+	        		c = halfadder(byteA[i],byteB[i])[0];
+	        	}else if(i == len) {
+
+	        	answer[i] = c;
+
+
+	        	}else {
+	        		answer[i] = fulladder(byteA[i],byteB[i],c)[1];
+	        		c = fulladder(byteA[i],byteB[i],c)[0];
+
+	        	}
+
+	        }
+
+	        return answer;
+	    }
+
+	public static void main(String[] args) {
+
+		int [] A = { 1, 1, 0, 0, 1, 0, 1, 0 };
+		int [] B = { 1, 1, 0, 1, 1, 0, 0, 1 };
+
+		boolean[] a = new boolean[A.length];
+		boolean[] b = new boolean[B.length];
+
+
+		for(int i = 0; i< A.length; i++) {
+			a[i] = (A[i]!=0);
+			b[i] = (B[i]!=0);
+		}
+
+		boolean[] c = new boolean[a.length+1];
+
+		c = byteadder(a,b);
+		for(int i = 0; i< c.length;i++) {
+			if(i ==0) {
+				System.out.print("["+(c[i]? 1:0)+",");
+			}else if(i == c.length-1) {
+				System.out.print((c[i]? 1:0)+"]");
+			}else{
+				System.out.print((c[i]? 1:0)+",");
+			}
+		}
+	}
+}
+~~~
+
+#### 정리
+- 4비트나 16비트도 같은 함수로 처리 가능한가?
+입력받은 배열의 길이로 함수를 처리하게 했기 때문에 가능
+- byteA와 byteB 배열의 크기가 다르면 어떻게 처리 가능할까?
+배열은 크기가 고정되므로 크기를 바꿔주기위해 입력받는 배열을 arryList로 변경해줌
+
+~~~
+public static void main(String[] args) {
+
+  ArrayList<Integer> A = new ArrayList<Integer>(
+        Arrays.asList(1, 1, 0, 0, 1, 0, 1, 0 ));
+    ArrayList<Integer> B = new ArrayList<Integer>(
+        Arrays.asList(1, 1, 0, 0, 1, 0, 1, 0 ));
+
+    int length = A.size();
+
+    if(A.size() != B.size()) {
+      length = Math.max(A.size(),B.size());
+      if(A.size() < length) {
+        for(int i = A.size(); i < length ; i++) {
+          A.add(i,0);
+        }
+      }else {
+        for(int i = B.size(); i < length ; i++) {
+          B.add(i,0);
+        }
+
+      }
+
+    }
+
+    boolean[] a = new boolean[length];
+    boolean[] b = new boolean[length];
+
+
+    for(int i = 0; i< length; i++) {
+      a[i] = (A.get(i)!=0);
+      b[i] = (B.get(i)!=0);
+    }
+
+  boolean[] c = new boolean[a.length+1];
+
+  c = byteadder(a,b);
+  for(int i = 0; i< c.length;i++) {
+    if(i ==0) {
+      System.out.print("["+(c[i]? 1:0)+",");
+    }else if(i == c.length-1) {
+      System.out.print((c[i]? 1:0)+"]");
+    }else{
+      System.out.print((c[i]? 1:0)+",");
+    }
+  }
+}
+~~~
