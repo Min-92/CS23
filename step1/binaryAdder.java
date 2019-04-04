@@ -44,17 +44,36 @@ public class binaryAdder {
 
 	public static void main(String[] args) {
 
-		int [] A = { 1, 1, 0, 0, 1, 0, 1, 0 };
-		int [] B = { 1, 1, 0, 1, 1, 0, 0, 1 };
+    ArrayList<Integer> A = new ArrayList<Integer>(
+  				Arrays.asList(1, 1, 0, 0, 1, 0, 1, 0 ));
+  		ArrayList<Integer> B = new ArrayList<Integer>(
+  				Arrays.asList(1, 1, 0, 0, 1, 0, 1, 0 ));
 
-		boolean[] a = new boolean[A.length];
-		boolean[] b = new boolean[B.length];
+  		int length = A.size();
+
+  		if(A.size() != B.size()) {
+  			length = Math.max(A.size(),B.size());
+  			if(A.size() < length) {
+  				for(int i = A.size(); i < length ; i++) {
+  					A.add(i,0);
+  				}
+  			}else {
+  				for(int i = B.size(); i < length ; i++) {
+  					B.add(i,0);
+  				}
+
+  			}
+
+  		}
+
+  		boolean[] a = new boolean[length];
+  		boolean[] b = new boolean[length];
 
 
-		for(int i = 0; i< A.length; i++) {
-			a[i] = (A[i]!=0);
-			b[i] = (B[i]!=0);
-		}
+  		for(int i = 0; i< length; i++) {
+  			a[i] = (A.get(i)!=0);
+  			b[i] = (B.get(i)!=0);
+  		}
 
 		boolean[] c = new boolean[a.length+1];
 
