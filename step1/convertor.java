@@ -15,6 +15,17 @@ public class convertor {
 		}
         return answer;
     }
+
+    public static int bin2dec(ArrayList bin) {
+		int answer = 0;
+		int a = 1;
+		for(int i = 0; i < bin.size(); i++) {
+			answer = answer + (int)bin.get(i)*a;
+			a =a*2;
+			
+		}
+		return answer;
+	}
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);		
@@ -28,6 +39,8 @@ public class convertor {
 		while(itr.hasNext()) {
 			System.out.print(itr.next());
 		}
+		System.out.println();
+		System.out.println(bin2dec(ans));
 	}
 
 }
