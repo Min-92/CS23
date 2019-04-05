@@ -325,4 +325,93 @@ public static void main(String[] args) {
 ~~~
 
 ## 진법변환기
-- 추가예정
+1. 미션1
+- int 정수형 10진수를 bool 2진수 배열로 변환하는 dec2bin함수를 구현한다
+- *코드 간결화를 위해 2진수 배열을 arrayList로 변경해 작성했다*
+
+~~~
+import java.util.Scanner;
+
+public class convertor {
+	public static ArrayList dec2bin(int decimal) {
+		ArrayList<Integer> answer = new ArrayList();
+		int a = decimal;
+		int r;	
+		for(int i = 0; a!=1; i++) {
+			r = a%2;
+			a = a/2;
+			answer.add(r);
+			if(a == 1) {
+				answer.add(a);
+			}
+		}
+        return answer;
+    }
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);		
+		int a = sc.nextInt();
+		
+		ArrayList<Integer> ans = new ArrayList();
+		
+		ans = dec2bin(a);
+		Iterator itr = ans.iterator();
+		
+		while(itr.hasNext()) {
+			System.out.print(itr.next());
+		}
+	}
+}
+~~~
+
+2. 미션2
+- 2진수 를 10진수로 변환하는 bin2dec함수를 구현한다.
+-*입력과 출력을 연결하고 (입력)10진법 -> (출략)2진법 -> (출력)10진법 으로 구현했다*
+~~~
+import java.util.Scanner;
+
+public class convertor {
+	public static ArrayList dec2bin(int decimal) {
+		ArrayList<Integer> answer = new ArrayList();
+		int a = decimal;
+		int r;	
+		for(int i = 0; a!=1; i++) {
+			r = a%2;
+			a = a/2;
+			answer.add(r);
+			if(a == 1) {
+				answer.add(a);
+			}
+		}
+        return answer;
+    }
+
+    public static int bin2dec(ArrayList bin) {
+		int answer = 0;
+		int a = 1;
+		for(int i = 0; i < bin.size(); i++) {
+			answer = answer + (int)bin.get(i)*a;
+			a =a*2;
+			
+		}
+		return answer;
+	}
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);		
+		int a = sc.nextInt();
+		
+		ArrayList<Integer> ans = new ArrayList();
+		
+		ans = dec2bin(a);
+		Iterator itr = ans.iterator();
+		
+		while(itr.hasNext()) {
+			System.out.print(itr.next());
+		}
+		System.out.println();
+		System.out.println(bin2dec(ans));
+	}
+
+}
+~~~
