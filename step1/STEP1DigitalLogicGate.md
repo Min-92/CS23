@@ -24,8 +24,8 @@ for(int i = 0; i < 2; i++) {
 }
 
 // 			result
-//	    x | y | z |
-//     ---|---|---|
+//	   	  x | y | z |
+//    	 ---|---|---|
 //		  0 | 0 | 1 |
 //		  0 | 1 | 1 |
 //		  1 | 0 | 1 |
@@ -91,9 +91,11 @@ for(int i = 0; i < 2; i++) {
 ## 이진덧셈기
 ### 배경지식
 1. 반가산기  
+
 ![halfadder](./img/halfadder.png)
-2. 전가산기  
-![fulladder](./img/fulladder.png)
+
+1. 전가산기  
+  ![fulladder](./img/fulladder.png)
 
 ### 미션1
 - boolean 타입으로 동작하는 이진 덧셈기를 논리게이트 동작만으로 구현합니다.
@@ -479,7 +481,7 @@ public class convertor {
 			System.out.print(itr.next());
 		}
 	}
-}
+}	
 ~~~
 
 2. 미션2
@@ -533,3 +535,4 @@ public class convertor {
 
 }
 ~~~
+
