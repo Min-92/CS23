@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class convertor {
 	public static ArrayList dec2bin(int decimal) {
