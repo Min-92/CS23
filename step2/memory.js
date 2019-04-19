@@ -1,9 +1,8 @@
-class Memory {
+module.exports = class Memory {
 
     constructor() {
-        this.programText = new Uint16Array(0x10000);
-        this.programHeap = new Uint16Array(0x10000);
-        this.programCount = 0;
+        this.programText = new Array(0x10000);
+        this.programHeap = new Array(0x10000);
     }
 
     peek(address) {
@@ -20,10 +19,9 @@ class Memory {
         }
     }
 
-    locate(program) {
+    locate(program,programCount) {
         for (let i = 0; i < program.length; i++) {
-            this.programText[this.programCount] = program[i];
-            this.programCount++;
+            this.programText[i] = program[i];
         }
     }
 
@@ -32,28 +30,14 @@ class Memory {
     }
 
     store(address, data) {
-        this.programHeap[address - 0x10000] = data;
+        this.programHeap[address] = data;
     }
 
     load(address) {
-        return this.programHeap[address - 0x10000];
+        if(this.programHeap[address] === undefined){
+            return "0";
+        }else{
+            return this.programHeap[address].toString();
+        }
     }
 }
-
-const test = () =>{
-    const testMemory = new Memory();
-    const arr = [0x0000, 0x0001, 0x0002, 0x0003];
-    
-    testMemory.locate(arr);
-    testMemory.store(0x10000, 0xFFFF);
-    console.log(testMemory.fetch(testMemory.programCount - 1));
-    console.log(testMemory.load(0x10000))
-    
-    console.log(testMemory.peek(0x0003));
-    console.log(testMemory.peek(0x10000));
-}
-
-// test();
-
-module.exports = Memory;
-
