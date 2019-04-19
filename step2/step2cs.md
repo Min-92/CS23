@@ -8,7 +8,7 @@
 
 
 
-![RsT870i](C:\Users\Minjae\Documents\github\CS23\step2\img\RsT870i.png)
+![RsT870i](./img/RsT870i.png)
 
 
 
@@ -20,7 +20,7 @@
 
      
 
-     ![img_c_memory_structure](C:\Users\Minjae\Documents\github\CS23\step2\img\img_c_memory_structure.png)
+     ![img_c_memory_structure](./img/img_c_memory_structure.png)
 
      
 
@@ -53,7 +53,7 @@
 
    
 
-   ![step3.027](C:\Users\Minjae\Documents\github\CS23\step2\img\step3.027.png)
+   ![step3.027](./img/step3.027.png)
 
    
 
@@ -61,7 +61,7 @@
 
    - 제조사마다 다른 동작 방식으로 구현되어 있지만, 기본적인 동작 흐름은 비슷하다.
 
-     ![cpHardware](C:\Users\Minjae\Documents\github\CS23\step2\img\cpHardware.PNG)
+     ![cpHardware](./img/cpHardware.PNG)
 
      #### ex)
 
@@ -89,7 +89,7 @@
 
 #### 폰노이만 구조 vs 하버드구조
 
-![von](C:\Users\Minjae\Documents\github\CS23\step2\img\von.jpg)
+![von](./img/von.jpg)
 
 ###### 하버드 구조
 
@@ -116,6 +116,11 @@
 ### CPU 역할
 
 - 메모리에 저장된 프로그램을 차례대로 fetch 해서 해당 명령어를 decode해서 실행 excute 하는 역할을 담당한다
+- 
+
+### cpu 구조
+
+- CPU는 여러 종류 Register 와 계산을하는 ARU(계산유닛), 명령을처리하는 파이프라인으로 구성된다
 
 - Stored program Concept , 폰노이만 아키텍쳐
 
@@ -124,17 +129,13 @@
   - Decode : 명령어 해석 / 컨트롤유닛
   - Execution : 연산을 진행 / ALU중심으로 요소들의 협력으로 이루어진다 (보통은 ALU를 생각)
 
-  ![StoredProgramConcept](C:\Users\Minjae\Documents\github\CS23\step2\img\StoredProgramConcept.PNG)
+  ![StoredProgramConcept](./img/StoredProgramConcept.PNG)
 
-  ![spc_computerArchitecture](C:\Users\Minjae\Documents\github\CS23\step2\img\spc_computerArchitecture.PNG)
-
-
+  ![spc_computerArchitecture](./img/spc_computerArchitecture.PNG)
 
 
 
-### cpu 구조
 
-- CPU는 여러 종류 Register 와 계산을하는 ARU(계산유닛), 명령을처리하는 파이프라인으로 구성된다. 각 구성요소별로 어떤 역할을 하
 
 ​    
 
@@ -146,6 +147,8 @@
 
 [cloudstudying](https://cloudstudying.kr/lectures/183)
 
-[spiroprojects](<http://spiroprojects.com/blog/cat-view-more.php?blogname=Difference-Between-Von-Neumann-Architecture-and-Harvard-Architecture&id=130>)
+[spiroprojects](http://spiroprojects.com/blog/cat-view-more.php?blogname=Difference-Between-Von-Neumann-Architecture-and-Harvard-Architecture&id=130)
 
-[뇌를 자극하는 윈도우즈 시스템 프로그래밍](<https://www.youtube.com/watch?v=GVX-m3RF-K0&list=PLVsNizTWUw7E2KrfnsyEjTqo-6uKiQoxc>)
+[뇌를 자극하는 윈도우즈 시스템 프로그래밍](https://www.youtube.com/watch?v=GVX-m3RF-K0&list=PLVsNizTWUw7E2KrfnsyEjTqo-6uKiQoxc)
+
+[https://synapticlab.co.kr](https://synapticlab.co.kr/52)
