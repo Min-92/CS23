@@ -1,11 +1,13 @@
 // 현재 디렉토리
 let workingDirectory = "";
+const repositoryArray = [];
 
 // 저장소
 // // working directory/ staging area/ git repository/
 // // 속한 파일 name, time
 class repository {
-    constructor() {
+    constructor(name) {
+        this.name = name;
         this.area = {
             Working_Directory: [],
             Staging_Area: [],
@@ -19,7 +21,8 @@ class repository {
 // // untracked / unmodified/ modified/ staged
 // // name, 소속 저장소
 class file {
-    constructor(repository){
+    constructor(name,repository){
+        this.name = name;
         this.repository = repository;
         this.status = "Untracked";
     }
@@ -42,25 +45,22 @@ class app{
         rl.prompt();
         rl.on("line", line => {
             const commandArray = line.split(" ");
-            excuteCommand(commandArray);
+            this.excuteCommand(commandArray);
             rl.prompt();
         });
     }
 
     excuteCommand(commandArray){
-        const action = commandArray[0];
-        this[`${action[0]}`](commandArray);
-        
+        const action = commandArray.shift();
+        this[`${action}`](...commandArray);
     }
     
     
-    // init (name) {
-        
-        // }
+    init(repositoryName) {
+        const repo = new repository(repositoryName);
+        repositoryArray.push(repo);
+        console.log(`created ${repositoryName} repository.`);
     }
-    
-    // init (name)
-    // //local name 저장소 공간 생성
     
     
     // status
@@ -99,6 +99,8 @@ class app{
 
 // // commit "make readme file"
 // // readme    2019-03-26 09:29:25
+}
 
 
-console();
+const newApp = new app();
+newApp.console();
