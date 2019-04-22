@@ -1,30 +1,40 @@
+// 콘솔
+const console = () => {
+    const readline = require("readline");
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    rl.setPrompt("/> ");
+
+    rl.prompt();
+    rl.on("line", line => {
+        console.log(line);
+        rl.prompt();
+    });
+}
+// 현재 디렉토리
+
 
 // 저장소
 // // working directory/ staging area/ git repository/
 // // 속한 파일 name, time
+class repository {
+    constructor() {
+        this.area = {
+            Working_Directory: [],
+            Staging_Area: [],
+            Git_Repository: []
+        };
+    }
+}
+
 
 // 파일
 // // untracked / unmodified/ modified/ staged
 // // name, 소속 저장소
 
-// 콘솔
-const console = () =>{
-    const readline = require("readline");
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
-rl.setPrompt("/> ");
-
-rl.prompt();
-rl.on("line", line => {
-    console.log(line);
-    rl.prompt();
-});
-}
-
-// 현재 디렉토리
 
 
 // // 프롬프트 이용
