@@ -1,30 +1,6 @@
 // 현재 디렉토리
 let workingDirectory = "";
 
-
-// // 프롬프트 이용
-// // 자동 반복
-// // checkout 시 프롬프트 변경
-// 콘솔
-const console = () => {
-    const readline = require("readline");
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
-
-    rl.setPrompt(`${workingDirectory}/>`);
-
-    rl.prompt();
-    rl.on("line", line => {
-        console.log(line);
-        rl.prompt();
-    });
-}
-
-
-
-
 // 저장소
 // // working directory/ staging area/ git repository/
 // // 속한 파일 name, time
@@ -49,16 +25,48 @@ class file {
     }
 }
 
+class app{
+    // // 프롬프트 이용
+    // // 자동 반복
+    // // checkout 시 프롬프트 변경
+    // 콘솔
+    console () {
+        const readline = require("readline");
+        const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+    
+        rl.setPrompt(`${workingDirectory}/>`);
+    
+        rl.prompt();
+        rl.on("line", line => {
+            const commandArray = line.split(" ");
+            excuteCommand(commandArray);
+            rl.prompt();
+        });
+    }
 
-
-// init (name)
-// //local name 저장소 공간 생성
-
-
-// status
-// // name - 저장소 내부 파일 상태 출력
-// // void 전체 저장소 목록 출력
-// // 체크아웃 이후 - working di
+    excuteCommand(commandArray){
+        const action = commandArray[0];
+        this[`${action[0]}`](commandArray);
+        
+    }
+    
+    
+    // init (name) {
+        
+        // }
+    }
+    
+    // init (name)
+    // //local name 저장소 공간 생성
+    
+    
+    // status
+    // // name - 저장소 내부 파일 상태 출력
+    // // void 전체 저장소 목록 출력
+    // // 체크아웃 이후 - working di
 // // ---Working Directory/
 // // readme    2019-03-26 09:28:05
 
