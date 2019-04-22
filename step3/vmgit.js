@@ -34,7 +34,12 @@ class repository {
 // 파일
 // // untracked / unmodified/ modified/ staged
 // // name, 소속 저장소
-
+class file {
+    constructor(repository){
+        this.repository = repository;
+        this.status = "Untracked";
+    }
+}
 
 
 // // 프롬프트 이용
