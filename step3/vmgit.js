@@ -1,3 +1,10 @@
+// 현재 디렉토리
+let workingDirectory = "";
+
+
+// // 프롬프트 이용
+// // 자동 반복
+// // checkout 시 프롬프트 변경
 // 콘솔
 const console = () => {
     const readline = require("readline");
@@ -6,7 +13,7 @@ const console = () => {
         output: process.stdout
     });
 
-    rl.setPrompt("/> ");
+    rl.setPrompt(`${workingDirectory}/>`);
 
     rl.prompt();
     rl.on("line", line => {
@@ -14,7 +21,8 @@ const console = () => {
         rl.prompt();
     });
 }
-// 현재 디렉토리
+
+
 
 
 // 저장소
@@ -42,9 +50,6 @@ class file {
 }
 
 
-// // 프롬프트 이용
-// // 자동 반복
-// // checkout 시 프롬프트 변경
 
 // init (name)
 // //local name 저장소 공간 생성
@@ -86,3 +91,6 @@ class file {
 
 // // commit "make readme file"
 // // readme    2019-03-26 09:29:25
+
+
+console();
