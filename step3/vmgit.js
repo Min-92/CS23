@@ -65,7 +65,7 @@ class app {
 
     excuteCommand(commandArray) {
         const action = commandArray.shift();
-        const regExp = /^init$|^status$|^checkout$|^new$|^add$|^commit$/;
+        const regExp = /^init$|^status$|^checkout$|^new$|^add$|^commit$|^log$/;
         const matchRegExp = action.match(regExp);
         if (matchRegExp === null) {
             console.log("명령어가 올바르지 않습니다.");
@@ -188,7 +188,9 @@ class app {
 
         let commitMent;
         commitComment.forEach((element)=>{
-            commitMent += element;
+            if(element !== undefined){
+                commitMent += element+" ";
+            }
         });
         const area = repositoryList[workingDirectory].area;
         console.log("---commit files/");
@@ -201,8 +203,13 @@ class app {
             commitLog.push(deletingArray);
             console.log(`${deletingArray[0].name}     ${deletingArray[1]}`);
         }
+    }
 
-
+    log(){
+        commitLog.forEach((element) =>{
+            console.log(`commit   "${element[2]}"`);
+            console.log(`${element[0].name}      ${element[1]} `);
+        })
     }
     // // (log) staging area 있는 파일을 모두 git repositor 에 등록한다
     // ///커밋된 파일들을 커밋 시간과 함께 unmodified 상태로 표시, log 에 저장
