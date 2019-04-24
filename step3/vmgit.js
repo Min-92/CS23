@@ -54,7 +54,14 @@ class app{
 
     excuteCommand(commandArray){
         const action = commandArray.shift();
-        this[`${action}`](...commandArray);
+        const regExp = /^init$|^status$|^checkout$/;
+        const matchRegExp = action.match(regExp);
+        if(matchRegExp === null){
+            console.log("명령어가 올바르지 않습니다.");
+        }else{
+            this[`${matchRegExp}`](commandArray);
+
+        }
     }
     
     
