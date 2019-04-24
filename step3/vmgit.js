@@ -5,6 +5,8 @@ require('date-utils');
 // 현재 디렉토리
 let workingDirectory = "local";
 const repositoryList = {};
+const commitLog = [];
+
 
 // 저장소
 // // working directory/ staging area/ git repository/
@@ -63,7 +65,7 @@ class app {
 
     excuteCommand(commandArray) {
         const action = commandArray.shift();
-        const regExp = /^init$|^status$|^checkout$|^new$|^add$/;
+        const regExp = /^init$|^status$|^checkout$|^new$|^add$|^commit$/;
         const matchRegExp = action.match(regExp);
         if (matchRegExp === null) {
             console.log("명령어가 올바르지 않습니다.");
@@ -178,20 +180,44 @@ class app {
 
     // }
     // // (name) 해당 파일 satging area 로 이동 가정, satgin area 출력
-    printArea(areaName){
-        const area = repositoryList[workingDirectory].area;
-        console.log(`---${areaName}/`);
-            for (let i in area[areaName]) {
-                console.log(`${area[areaName][i][0].name}    ${area[areaName][i][1]}`);
-            }
-    }
+        // commit
+    commit(...commitComment){
+        if (repositoryList[workingDirectory].area.Staging_Area === []){
+            return console.log("No Staged file");
+        } 
 
-    // commit
+        let commitMent;
+        commitComment.forEach((element)=>{
+            commitMent += element;
+        });
+        const area = repositoryList[workingDirectory].area;
+        console.log("---commit files/");
+        for (let i in area.Staging_Area) {
+            area.Staging_Area[i][0].status = "Unmodified";
+            const deletingArray = area.Staging_Area.splice(i, 1)[0]
+            deletingArray[1] = this.getTime();
+            deletingArray.push(commitMent);
+            area.Git_Repository.push(deletingArray);
+            commitLog.push(deletingArray);
+            console.log(`${deletingArray[0].name}     ${deletingArray[1]}`);
+        }
+
+
+    }
     // // (log) staging area 있는 파일을 모두 git repositor 에 등록한다
     // ///커밋된 파일들을 커밋 시간과 함께 unmodified 상태로 표시, log 에 저장
     // //hello/>commit make readme file
     // // ---commit files/
     // // readme    2019-03-26 09:29:25
+
+    printArea(areaName) {
+        const area = repositoryList[workingDirectory].area;
+        console.log(`---${areaName}/`);
+        for (let i in area[areaName]) {
+            console.log(`${area[areaName][i][0].name}    ${area[areaName][i][1]}`);
+        }
+    }
+
 
     // Touch
     // //(name) 이미 커밋한 파일상태를modified 상태로 표시, workding 목록에 표시
