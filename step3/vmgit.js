@@ -1,5 +1,5 @@
 require('date-utils');
-const date = new Date();
+
 
 
 // 현재 디렉토리
@@ -57,6 +57,7 @@ class app {
     }
 
     getTime() {
+        const date = new Date();
         return date.toFormat("YYYY-MM-DD HH24:MI:SS");
     }
 
@@ -103,19 +104,9 @@ class app {
                     console.log(`${repositoryList[i].name}/ `);
                 }
             } else {
-                const area = repositoryList[workingDirectory].area;
-                console.log("---Working Directory/");
-                for (let i in area.Working_Directory) {
-                    console.log(`${area.Working_Directory[i][0].name}    ${area.Working_Directory[i][1]}`);
-                }
-                console.log("---Staging Area/");
-                for (let i in area.Staging_Area) {
-                    console.log(`${area.Staging_Area[i][0].name}    ${area.Staging_Area[i][1]}`);
-                }
-                console.log("---Git Repository/");
-                for (let i in area.Git_Repository) {
-                    console.log(`${area.Git_Repository[i][0].name}    ${area.Git_Repository[i][1]}`);
-                }
+                this.printArea("Working_Directory");
+                this.printArea("Staging_Area");
+                this.printArea("Git_repository");
             }
         } else {
             if (this.checkRepoName(repositoryName)) {
@@ -178,13 +169,7 @@ class app {
                     break;
                 }
             }
-            
-            console.log("---Staging Area/");
-            for (let i in area.Staging_Area) {
-                console.log(`${area.Staging_Area[i][0].name}    ${area.Staging_Area[i][1]}`);
-            }
-
-
+            this.printArea("Staging_Area");
 
         } else {
             console.log("파일 이름이 올바르지 않습니다.");
@@ -193,6 +178,13 @@ class app {
 
     // }
     // // (name) 해당 파일 satging area 로 이동 가정, satgin area 출력
+    printArea(areaName){
+        const area = repositoryList[workingDirectory].area;
+        console.log(`---${areaName}/`);
+            for (let i in area[areaName]) {
+                console.log(`${area[areaName][i][0].name}    ${area[areaName][i][1]}`);
+            }
+    }
 
     // commit
     // // (log) staging area 있는 파일을 모두 git repositor 에 등록한다
