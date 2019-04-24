@@ -57,7 +57,7 @@ class app{
     }
 
     getTime(){
-        return nowDate = date.toFormat("YYYY-MM-DD HH24:MI:SS");
+        return date.toFormat("YYYY-MM-DD HH24:MI:SS");
     }
 
     excuteCommand(commandArray){
@@ -91,7 +91,7 @@ class app{
         }
        const fl = new file(fileName,workingDirectory);
        repositoryList[`${workingDirectory}`].fileArray.push(fileName);
-       repositoryList[`${workingDirectory}`].area.Working_Directory.push(fl);
+       repositoryList[`${workingDirectory}`].area.Working_Directory.push([fl,this.getTime()]);
         
     }
 // (name) checkout 으로 파일선택후, 해당 디렉토리에 파일 생성 ,상태 untracked
