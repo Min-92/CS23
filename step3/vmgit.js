@@ -96,10 +96,6 @@ class app{
     }
 // (name) checkout 으로 파일선택후, 해당 디렉토리에 파일 생성 ,상태 untracked
     
-    // status
-    // // name - 저장소 내부 파일 상태 출력
-    // // void 전체 저장소 목록 출력
-    // // 체크아웃 이후 - working di
     status(repositoryName){
         if(repositoryName === undefined){
             if(workingDirectory === "local"){
@@ -107,8 +103,9 @@ class app{
                     console.log(`${repositoryList[i].name}/ `);
                 }
             }else{
+                let area;
                 console.log("---Working Directory/");
-                let area = repositoryList[workingDirectory].area.Working_Directory;
+                area = repositoryList[workingDirectory].area.Working_Directory;
                 for(let i in area){
                     console.log(`${area[i][0].name}    ${area[i][1]}`);
                 }
@@ -132,11 +129,6 @@ class app{
         }
 
     }
-// // ---Working Directory/
-// // readme    2019-03-26 09:28:05
-
-// // ---Staging Area/
-// // ---Git Repository/
 checkRepoName(name){
     let result = false;
     for(let i in repositoryList){
@@ -167,11 +159,27 @@ checkout(repositoryName){
 
 
 
-
-// add
-add(fileName){
-
+checkFileName(fileName){    
+    const fileArray = repositoryList[workingDirectory].fileArray;
+    let result = false;
+    fileArray.forEach(name =>{
+        if(fileName === name) result = true;
+    });   
+    return result;
 }
+// add
+// add(fileName){
+//     if(this.checkFileName){
+//         area = repositoryList[workingDirectory].area.Working_Directory;
+
+
+
+//     }else{
+//         console.log("파일 이름이 올바르지 않습니다.");
+//     }
+
+
+// }
 // // (name) 해당 파일 satging area 로 이동 가정, satgin area 출력
 
 // commit
