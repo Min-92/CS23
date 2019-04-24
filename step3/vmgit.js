@@ -54,12 +54,16 @@ class app{
 
     excuteCommand(commandArray){
         const action = commandArray.shift();
-        const regExp = /^init$|^status$|^checkout$/;
+        const regExp = /^init$|^status$|^checkout$|^new$/;
         const matchRegExp = action.match(regExp);
         if(matchRegExp === null){
             console.log("명령어가 올바르지 않습니다.");
         }else{
-            this[`${matchRegExp}`](commandArray);
+            if(matchRegExp[0] === "new"){
+                this.newFile(...commandArray);
+            }else{
+                this[`${matchRegExp}`](...commandArray);
+            }
 
         }
     }
@@ -71,6 +75,18 @@ class app{
         console.log(`created ${repositoryName} repository.`);
     }
     
+    // new
+    newFile(fileName){
+        if(workingDirectory === "local"){
+            console.log("저장소가 선택되지 않았습니다.");
+            return;
+        }
+       const fl = new file(fileName,workingDirectory);
+       repositoryList[`${workingDirectory}`].fileArray.push(fileName);
+       repositoryList[`${workingDirectory}`].area.Working_Directory.push(fl);
+        
+    }
+// (name) checkout 으로 파일선택후, 해당 디렉토리에 파일 생성 ,상태 untracked
     
     // status
     // // name - 저장소 내부 파일 상태 출력
@@ -78,7 +94,7 @@ class app{
     // // 체크아웃 이후 - working di
     status(repositoryName){
         if(repositoryName === undefined){
-            if(workingDirectory == 'local'){
+            if(workingDirectory === "local"){
                 for(let i in repositoryList){
                     console.log(`${repositoryList[i].name}/ `);
                 }
@@ -86,7 +102,11 @@ class app{
 
             }
         }else{
-            console.log(`${repositoryName}/ ${repositoryList[repositoryName].fileArray}`);
+            if(this.checkRepoName(repositoryName)){
+                console.log(`${repositoryName}/ ${repositoryList[repositoryName].fileArray}`);
+            }else{
+                console.log("저장소 이름이 올바르지 않습니다.");
+            }
         }
 
     }
@@ -110,9 +130,11 @@ checkRepoName(name){
 checkout(repositoryName){
     if(repositoryName === undefined){
         workingDirectory = "local";
+        return;
     }
     if(this.checkRepoName(repositoryName)){
         workingDirectory = `${repositoryName}`;
+        return;
     }
 
     console.log("저장소 이름이 올바르지 않습니다.");
@@ -121,8 +143,7 @@ checkout(repositoryName){
 // //(name)  해당 저장소 선택, 프롬프트에 추가 /name/>
 // // void 초기상태로 이동 , 프롬프트 />
 
-// new
-// // (name) checkout 으로 파일선택후, 해당 디렉토리에 파일 생성 ,상태 untracked
+
 
 
 // add
