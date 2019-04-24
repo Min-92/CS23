@@ -65,7 +65,7 @@ class app {
 
     excuteCommand(commandArray) {
         const action = commandArray.shift();
-        const regExp = /^init$|^status$|^checkout$|^new$|^add$|^commit$|^log$/;
+        const regExp = /^init$|^status$|^checkout$|^new$|^add$|^commit$|^log$|^touch$/;
         const matchRegExp = action.match(regExp);
         if (matchRegExp === null) {
             console.log("명령어가 올바르지 않습니다.");
@@ -182,15 +182,14 @@ class app {
     // // (name) 해당 파일 satging area 로 이동 가정, satgin area 출력
         // commit
     commit(...commitComment){
-        if (repositoryList[workingDirectory].area.Staging_Area === []){
+        if(workingDirectory === "local") return console.log("저장소가 올바르지 않습니다.");
+        if (repositoryList[workingDirectory].area.Staging_Area.length === 0){
             return console.log("No Staged file");
         } 
 
-        let commitMent;
+        let commitMent = " ";
         commitComment.forEach((element)=>{
-            if(element !== undefined){
-                commitMent += element+" ";
-            }
+            commitMent += element+" ";
         });
         const area = repositoryList[workingDirectory].area;
         console.log("---commit files/");
@@ -205,7 +204,28 @@ class app {
         }
     }
 
+    touch(fileName){
+        if (workingDirectory === "local") return console.log("저장소가 선택되지 않았습니다.");
+        if (this.checkFileName) {
+            const area = repositoryList[workingDirectory].area;
+            for (let i in area.Git_Repository) {
+                if (area.Git_Repository[i][0].name === fileName) {
+                    area.Git_Repository[i][0].status = "Modified";
+                    const deletingArray = area.Git_Repository.splice(i, 1)[0]
+                    deletingArray[1] = this.getTime();
+                    area.Working_Directory.push(deletingArray);
+                    break;
+                }
+            }
+            this.printArea("Working_Directory");
+
+        } else {
+            console.log("파일 이름이 올바르지 않습니다.");
+        }
+    }
+
     log(){
+        console.log(commitLog);
         commitLog.forEach((element) =>{
             console.log(`commit   "${element[2]}"`);
             console.log(`${element[0].name}      ${element[1]} `);
