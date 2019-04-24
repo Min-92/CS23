@@ -40,13 +40,14 @@ class app{
             input: process.stdin,
             output: process.stdout
         });
-    
+        
         rl.setPrompt(`${workingDirectory}/>`);
-    
+        
         rl.prompt();
         rl.on("line", line => {
             const commandArray = line.split(" ");
             this.excuteCommand(commandArray);
+            rl.setPrompt(`${workingDirectory}/>`);
             rl.prompt();
         });
     }
@@ -87,8 +88,29 @@ class app{
 
 // // ---Staging Area/
 // // ---Git Repository/
+checkRepoName(name){
+    let result = false;
+    for(let i in repositoryList){
+        if(repositoryList[`${i}`].name === name){
+            result = true;
+        } 
+    }
+
+    return result
+}
 
 // checkout 
+checkout(repositoryName){
+    if(repositoryName === undefined){
+        workingDirectory = "local";
+    }
+    if(this.checkRepoName(repositoryName)){
+        workingDirectory = `${repositoryName}`;
+    }
+
+    console.log("저장소 이름이 올바르지 않습니다.");
+    
+}
 // //(name)  해당 저장소 선택, 프롬프트에 추가 /name/>
 // // void 초기상태로 이동 , 프롬프트 />
 
