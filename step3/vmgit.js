@@ -1,3 +1,7 @@
+require('date-utils');
+const date = new Date(); 
+
+
 // 현재 디렉토리
 let workingDirectory = "local";
 const repositoryList = {};
@@ -50,6 +54,10 @@ class app{
             rl.setPrompt(`${workingDirectory}/>`);
             rl.prompt();
         });
+    }
+
+    getTime(){
+        return nowDate = date.toFormat("YYYY-MM-DD HH24:MI:SS");
     }
 
     excuteCommand(commandArray){
@@ -147,6 +155,9 @@ checkout(repositoryName){
 
 
 // add
+add(fileName){
+
+}
 // // (name) 해당 파일 satging area 로 이동 가정, satgin area 출력
 
 // commit
