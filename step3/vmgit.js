@@ -62,7 +62,7 @@ class app {
 
     excuteCommand(commandArray) {
         const action = commandArray.shift();
-        const regExp = /^init$|^status$|^checkout$|^new$/;
+        const regExp = /^init$|^status$|^checkout$|^new$|^add$/;
         const matchRegExp = action.match(regExp);
         if (matchRegExp === null) {
             console.log("명령어가 올바르지 않습니다.");
@@ -171,10 +171,12 @@ class app {
             const area = repositoryList[workingDirectory].area;
             for (let i in area.Working_Directory) {
                 if (area.Working_Directory[i][0].name === fileName) {
-                    area.Staging_Area.push(are.Working_Directory.splice(i, 0));
+                    area.Working_Directory[i][0].status = "Staged";
+                    area.Staging_Area.push(area.Working_Directory.splice(i, 1)[0]);
                     break;
                 }
             }
+            area.Staging_Area
             console.log("---Staging Area/");
             for (let i in area.Staging_Area) {
                 console.log(`${area.Staging_Area[i][0].name}    ${area.Staging_Area[i][1]}`);
