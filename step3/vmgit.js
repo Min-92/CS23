@@ -172,11 +172,13 @@ class app {
             for (let i in area.Working_Directory) {
                 if (area.Working_Directory[i][0].name === fileName) {
                     area.Working_Directory[i][0].status = "Staged";
-                    area.Staging_Area.push(area.Working_Directory.splice(i, 1)[0]);
+                    const deletingArray = area.Working_Directory.splice(i, 1)[0]
+                    deletingArray[1] = this.getTime();
+                    area.Staging_Area.push(deletingArray);
                     break;
                 }
             }
-            area.Staging_Area
+            
             console.log("---Staging Area/");
             for (let i in area.Staging_Area) {
                 console.log(`${area.Staging_Area[i][0].name}    ${area.Staging_Area[i][1]}`);
