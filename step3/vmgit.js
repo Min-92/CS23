@@ -107,7 +107,21 @@ class app{
                     console.log(`${repositoryList[i].name}/ `);
                 }
             }else{
-
+                console.log("---Working Directory/");
+                let area = repositoryList[workingDirectory].area.Working_Directory;
+                for(let i in area){
+                    console.log(`${area[i][0].name}    ${area[i][1]}`);
+                }
+                console.log("---Staging Area/");
+                area = repositoryList[workingDirectory].area.Staging_Area;
+                for(let i in area){
+                    console.log(`${area[i][0].name}    ${area[i][1]}`);
+                }
+                console.log("---Git Repository/");
+                area = repositoryList[workingDirectory].area.Git_Repository;
+                for(let i in area){
+                    console.log(`${area[i][0].name}    ${area[i][1]}`);
+                }
             }
         }else{
             if(this.checkRepoName(repositoryName)){
