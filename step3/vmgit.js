@@ -1,6 +1,6 @@
 // 현재 디렉토리
-let workingDirectory = "";
-const repositoryArray = [];
+let workingDirectory = "local";
+const repositoryList = {};
 
 // 저장소
 // // working directory/ staging area/ git repository/
@@ -8,10 +8,11 @@ const repositoryArray = [];
 class repository {
     constructor(name) {
         this.name = name;
+        this.fileArray = [];
         this.area = {
             Working_Directory: [],
             Staging_Area: [],
-            Git_Repository: []
+            Git_Repository: [] 
         };
     }
 }
@@ -58,7 +59,7 @@ class app{
     
     init(repositoryName) {
         const repo = new repository(repositoryName);
-        repositoryArray.push(repo);
+        repositoryList[`${repositoryName}`] = repo;
         console.log(`created ${repositoryName} repository.`);
     }
     
@@ -67,6 +68,20 @@ class app{
     // // name - 저장소 내부 파일 상태 출력
     // // void 전체 저장소 목록 출력
     // // 체크아웃 이후 - working di
+    status(repositoryName){
+        if(repositoryName === undefined){
+            if(workingDirectory == 'local'){
+                for(let i in repositoryList){
+                    console.log(`${repositoryList[i].name}/ `);
+                }
+            }else{
+
+            }
+        }else{
+            console.log(`${repositoryName}/ ${repositoryList[repositoryName].fileArray}`);
+        }
+
+    }
 // // ---Working Directory/
 // // readme    2019-03-26 09:28:05
 
