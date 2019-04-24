@@ -197,9 +197,8 @@ class app {
             area.Staging_Area[i][0].status = "Unmodified";
             const deletingArray = area.Staging_Area.splice(i, 1)[0]
             deletingArray[1] = this.getTime();
-            deletingArray.push(commitMent);
             area.Git_Repository.push(deletingArray);
-            commitLog.push(deletingArray);
+            commitLog.push([deletingArray[0].name.toString(), deletingArray[1].toString(), commitMent.toString()]);
             console.log(`${deletingArray[0].name}     ${deletingArray[1]}`);
         }
     }
@@ -225,10 +224,9 @@ class app {
     }
 
     log(){
-        console.log(commitLog);
         commitLog.forEach((element) =>{
             console.log(`commit   "${element[2]}"`);
-            console.log(`${element[0].name}      ${element[1]} `);
+            console.log(`${element[0]}      ${element[1]} `);
         })
     }
     // // (log) staging area 있는 파일을 모두 git repositor 에 등록한다
