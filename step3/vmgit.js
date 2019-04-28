@@ -3,8 +3,17 @@ require('date-utils');
 // 현재 디렉토리
 let workingDirectory = "local";
 const repositoryList = {};
-const commitLog = [];
+// const commitLog = {};
+//key = reponame
 // [0]filename [1]tile [2]commit message
+const remoteList = {
+    //repo = {
+        // this.name = name;
+        // this.commitLog = [];
+        // this.repository = [];
+// }
+
+};
 
 
 // 저장소
@@ -14,6 +23,7 @@ class repository {
     constructor(name) {
         this.name = name;
         this.fileArray = [];
+        this.commitLog = [];
         this.area = {
             Working_Directory: [],
             Staging_Area: [],
@@ -31,6 +41,14 @@ class file {
         this.name = name;
         this.repository = repository;
         this.status = "Untracked";
+    }
+}
+
+class remote{
+    constructor(name){
+        this.name = name;
+        this.commitLog = [];
+        this.repository = [];
     }
 }
 
@@ -60,14 +78,16 @@ class app {
 
     excuteCommand(commandArray) {
         const action = commandArray.shift();
-        const regExp = /^init$|^status$|^checkout$|^new$|^add$|^commit$|^log$|^touch$/;
+        const regExp = /^init$|^status$|^checkout$|^new$|^add$|^commit$|^log$|^touch$|^push$/;
         const matchRegExp = action.match(regExp);
         if (matchRegExp === null) {
             console.log("명령어가 올바르지 않습니다.");
         } else {
             if (matchRegExp[0] === "new") {
                 this.newFile(...commandArray);
-            } else {
+            }else if(matchRegExp[0] === "push"){
+                this.pushRemote();
+            }else {
                 this[`${matchRegExp}`](...commandArray);
             }
 
@@ -185,6 +205,7 @@ class app {
             commitMent += element + " ";
         });
         const area = repositoryList[workingDirectory].area;
+        const commitLog = repositoryList[workingDirectory].commitLog;
         console.log("---commit files/");
         for (let i in area.Staging_Area) {
             area.Staging_Area[i][0].status = "Unmodified";
@@ -218,11 +239,11 @@ class app {
     }
 
     log() {
-        if (commitLog.length === 0) {
+        if (repositoryList[workingDirectory].commitLog.length === 0) {
             console.log("로그가 없습니다.");
             return;
         }
-        commitLog.forEach((element) => {
+        repositoryList[workingDirectory].commitLog.forEach((element) => {
             console.log(`commit   "${element[2]}"`);
             console.log(`${element[0]}      ${element[1]} `);
         })
@@ -236,9 +257,23 @@ class app {
         }
     }
 
-
-    // Touch
-    // //(name) 이미 커밋한 파일상태를modified 상태로 표시, workding 목록에 표시
+    pushRemote(){
+        if(remoteList[workingDirectory] === undefined){
+            remoteList[workingDirectory] = new remote(workingDirectory);
+        }
+        const remoteRepo = remoteList[workingDirectory];
+        const localRepo = repositoryList[workingDirectory];
+        if(remoteRepo.commitLog.length === localRepo.commitLog.length){
+            console.log("push 할 데이터가 없습니다.");
+            return;
+        }
+        remoteRepo.repository = localRepo.area.Git_Repository;
+        console.log("push some commits...");
+        for(let i = remoteRepo.commitLog.length; i < localRepo.commitLog.length - 1; i++){
+            remoteRepo.commitLog.push(localRepo.commitLog[i]);
+            console.log(`commit "${localRepo.commitLog[i][2]}" pushed`);
+        }
+    }
 
 }
 
