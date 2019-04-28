@@ -8,10 +8,10 @@ const repositoryList = {};
 // [0]filename [1]tile [2]commit message
 const remoteList = {
     //repo = {
-        // this.name = name;
-        // this.commitLog = [];
-        // this.repository = [];
-// }
+    // this.name = name;
+    // this.commitLog = [];
+    // this.repository = [];
+    // }
 
 };
 
@@ -44,8 +44,8 @@ class file {
     }
 }
 
-class remote{
-    constructor(name){
+class remote {
+    constructor(name) {
         this.name = name;
         this.commitLog = [];
         this.repository = [];
@@ -85,9 +85,9 @@ class app {
         } else {
             if (matchRegExp[0] === "new") {
                 this.newFile(...commandArray);
-            }else if(matchRegExp[0] === "push"){
+            } else if (matchRegExp[0] === "push") {
                 this.pushRemote();
-            }else {
+            } else {
                 this[`${matchRegExp}`](...commandArray);
             }
 
@@ -126,6 +126,11 @@ class app {
                 this.printArea("Git_Repository");
 
             }
+        } else if (repositoryName === "remote") {
+            const lastCommit = remoteList[workingDirectory].commitLog[remoteList[workingDirectory].commitLog.length-1];
+            console.log(`Last commit   "${lastCommit[2]}"`);
+            console.log(`${lastCommit[0]}      ${lastCommit[1]} `);
+
         } else {
             if (this.checkRepoName(repositoryName)) {
                 console.log(`${repositoryName}/ ${repositoryList[repositoryName].fileArray}`);
@@ -257,19 +262,19 @@ class app {
         }
     }
 
-    pushRemote(){
-        if(remoteList[workingDirectory] === undefined){
+    pushRemote() {
+        if (remoteList[workingDirectory] === undefined) {
             remoteList[workingDirectory] = new remote(workingDirectory);
         }
         const remoteRepo = remoteList[workingDirectory];
         const localRepo = repositoryList[workingDirectory];
-        if(remoteRepo.commitLog.length === localRepo.commitLog.length){
+        if (remoteRepo.commitLog.length === localRepo.commitLog.length) {
             console.log("push 할 데이터가 없습니다.");
             return;
         }
         remoteRepo.repository = localRepo.area.Git_Repository;
         console.log("push some commits...");
-        for(let i = remoteRepo.commitLog.length; i < localRepo.commitLog.length - 1; i++){
+        for (let i = remoteRepo.commitLog.length; i <= localRepo.commitLog.length - 1; i++) {
             remoteRepo.commitLog.push(localRepo.commitLog[i]);
             console.log(`commit "${localRepo.commitLog[i][2]}" pushed`);
         }
