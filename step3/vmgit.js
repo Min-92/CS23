@@ -1,11 +1,10 @@
 require('date-utils');
 
-
-
 // 현재 디렉토리
 let workingDirectory = "local";
 const repositoryList = {};
 const commitLog = [];
+// [0]filename [1]tile [2]commit message
 
 
 // 저장소
@@ -36,10 +35,6 @@ class file {
 }
 
 class app {
-    // // 프롬프트 이용
-    // // 자동 반복
-    // // checkout 시 프롬프트 변경
-    // 콘솔
     console() {
         const readline = require("readline");
         const rl = readline.createInterface({
@@ -108,7 +103,8 @@ class app {
             } else {
                 this.printArea("Working_Directory");
                 this.printArea("Staging_Area");
-                this.printArea("Git_repository");
+                this.printArea("Git_Repository");
+
             }
         } else {
             if (this.checkRepoName(repositoryName)) {
@@ -160,7 +156,7 @@ class app {
     // add
     add(fileName) {
         if (workingDirectory === "local") return console.log("저장소가 선택되지 않았습니다.");
-        if (this.checkFileName) {
+        if (this.checkFileName(fileName)) {
             const area = repositoryList[workingDirectory].area;
             for (let i in area.Working_Directory) {
                 if (area.Working_Directory[i][0].name === fileName) {
@@ -178,32 +174,30 @@ class app {
         }
     }
 
-    // }
-    // // (name) 해당 파일 satging area 로 이동 가정, satgin area 출력
-        // commit
-    commit(...commitComment){
-        if(workingDirectory === "local") return console.log("저장소가 올바르지 않습니다.");
-        if (repositoryList[workingDirectory].area.Staging_Area.length === 0){
+    commit(...commitComment) {
+        if (workingDirectory === "local") return console.log("저장소가 올바르지 않습니다.");
+        if (repositoryList[workingDirectory].area.Staging_Area.length === 0) {
             return console.log("No Staged file");
-        } 
+        }
 
         let commitMent = " ";
-        commitComment.forEach((element)=>{
-            commitMent += element+" ";
+        commitComment.forEach((element) => {
+            commitMent += element + " ";
         });
         const area = repositoryList[workingDirectory].area;
         console.log("---commit files/");
         for (let i in area.Staging_Area) {
             area.Staging_Area[i][0].status = "Unmodified";
-            const deletingArray = area.Staging_Area.splice(i, 1)[0]
+            const deletingArray = area.Staging_Area[i];
             deletingArray[1] = this.getTime();
             area.Git_Repository.push(deletingArray);
             commitLog.push([deletingArray[0].name.toString(), deletingArray[1].toString(), commitMent.toString()]);
             console.log(`${deletingArray[0].name}     ${deletingArray[1]}`);
         }
+        area.Staging_Area = [];
     }
 
-    touch(fileName){
+    touch(fileName) {
         if (workingDirectory === "local") return console.log("저장소가 선택되지 않았습니다.");
         if (this.checkFileName) {
             const area = repositoryList[workingDirectory].area;
@@ -223,17 +217,16 @@ class app {
         }
     }
 
-    log(){
-        commitLog.forEach((element) =>{
+    log() {
+        if (commitLog.length === 0) {
+            console.log("로그가 없습니다.");
+            return;
+        }
+        commitLog.forEach((element) => {
             console.log(`commit   "${element[2]}"`);
             console.log(`${element[0]}      ${element[1]} `);
         })
     }
-    // // (log) staging area 있는 파일을 모두 git repositor 에 등록한다
-    // ///커밋된 파일들을 커밋 시간과 함께 unmodified 상태로 표시, log 에 저장
-    // //hello/>commit make readme file
-    // // ---commit files/
-    // // readme    2019-03-26 09:29:25
 
     printArea(areaName) {
         const area = repositoryList[workingDirectory].area;
@@ -247,11 +240,6 @@ class app {
     // Touch
     // //(name) 이미 커밋한 파일상태를modified 상태로 표시, workding 목록에 표시
 
-    // log
-    // //커밋한 파일들 목록을 커밋 로그와 함께 출력
-
-    // // commit "make readme file"
-    // // readme    2019-03-26 09:29:25
 }
 
 
