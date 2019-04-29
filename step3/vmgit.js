@@ -1,20 +1,9 @@
 require('date-utils');
 
-// 현재 디렉토리
 let workingDirectory = "local";
 const repositoryList = {};
-// const commitLog = {};
-//key = reponame
 // [0]filename [1]tile [2]commit message
-const remoteList = {
-    //repo = {
-    // this.name = name;
-    // this.commitLog = [];
-    // this.repository = [];
-    // }
-
-};
-
+const remoteList = {};
 
 // 저장소
 // // working directory/ staging area/ git repository/
@@ -22,7 +11,7 @@ const remoteList = {
 class repository {
     constructor(name) {
         this.name = name;
-        this.fileArray = [];
+        // this.fileArray = [];
         this.commitLog = [];
         this.area = {
             Working_Directory: [],
@@ -31,7 +20,6 @@ class repository {
         };
     }
 }
-
 
 // 파일
 // // untracked / unmodified/ modified/ staged
@@ -108,7 +96,7 @@ class app {
             return;
         }
         const fl = new file(fileName, workingDirectory);
-        repositoryList[`${workingDirectory}`].fileArray.push(fileName);
+        // repositoryList[`${workingDirectory}`].fileArray.push(fileName);
         repositoryList[`${workingDirectory}`].area.Working_Directory.push([fl, this.getTime()]);
 
     }
@@ -127,13 +115,24 @@ class app {
 
             }
         } else if (repositoryName === "remote") {
+            if(workingDirectory === "local"){
+                console.log("선택된 저장소가 없습니다.");
+            }
             const lastCommit = remoteList[workingDirectory].commitLog[remoteList[workingDirectory].commitLog.length-1];
             console.log(`Last commit   "${lastCommit[2]}"`);
             console.log(`${lastCommit[0]}      ${lastCommit[1]} `);
 
         } else {
             if (this.checkRepoName(repositoryName)) {
-                console.log(`${repositoryName}/ ${repositoryList[repositoryName].fileArray}`);
+                const fileList = [];
+                const area = repositoryList[repositoryName].area;
+                for(let i in area){
+                    area[i].forEach((element)=>{
+                        fileList.push(element[0].name);
+                    })
+                }
+                
+                console.log(`${repositoryName}/ ${fileList}`);
             } else {
                 console.log("저장소 이름이 올바르지 않습니다.");
             }
@@ -279,6 +278,47 @@ class app {
             console.log(`commit "${localRepo.commitLog[i][2]}" pushed`);
         }
     }
+
+    // clone(repoName, localName) {
+    //     //init 
+    //     const repo = new repository(localName);
+        
+    //     repo.area.Git_Repository = 
+    //     //
+    //     remoteList.repoName
+        
+    //     // class remote {
+    //         //     constructor(name) {
+    //             //         this.name = name;
+    //             //         this.commitLog = [];
+    //             //         this.repository = [];
+    //             //     }
+    //             // }
+                
+                
+    //             repositoryList[`${repositoryName}`] = repo;
+
+    // }
+
+    //clone
+//     clone <repository_name> <local_name> 명령을 사용하면 remote에 있는 저장소 내용을 새로운 local_name으로 local에 복사한다.
+
+// 이 때 커밋 이력 log와 함께 최종 Git Repository에 있는 파일들을 함께 복사한다.
+
+// 기존에 local_name과 동일한 저장소 이름이 local에 있으면 중복된 이름이라고 안내한다.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 
