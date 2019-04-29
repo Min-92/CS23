@@ -2,7 +2,6 @@ require('date-utils');
 
 let workingDirectory = "local";
 const repositoryList = {};
-// [0]filename [1]tile [2]commit message
 const remoteList = {};
 
 class repository {
@@ -40,9 +39,7 @@ class app {
             input: process.stdin,
             output: process.stdout
         });
-
         rl.setPrompt(`${workingDirectory}/>`);
-
         rl.prompt();
         rl.on("line", line => {
             const commandArray = line.split(" ");
@@ -71,13 +68,12 @@ class app {
             } else {
                 this[`${matchRegExp}`](...commandArray);
             }
-
         }
     }
 
 
     init(repositoryName) {
-        if(this.checkRepositoryName(repositoryName)){
+        if (this.checkRepositoryName(repositoryName)) {
             console.log("중복된 이름입니다.");
             return;
         }
@@ -125,7 +121,6 @@ class app {
                         fileList.push(element[0].name);
                     })
                 }
-
                 console.log(`${repositoryName}/ ${fileList}`);
             } else {
                 console.log("저장소 이름이 올바르지 않습니다.");
@@ -140,7 +135,6 @@ class app {
                 result = true;
             }
         }
-
         return result
     }
 
@@ -153,19 +147,17 @@ class app {
             workingDirectory = `${repositoryName}`;
             return;
         }
-
         console.log("저장소 이름이 올바르지 않습니다.");
-
     }
 
     checkFileName(fileName) {
         const fileList = [];
-                const area = repositoryList[workingDirectory].area;
-                for (let i in area) {
-                    area[i].forEach((element) => {
-                        fileList.push(element[0].name);
-                    })
-                }
+        const area = repositoryList[workingDirectory].area;
+        for (let i in area) {
+            area[i].forEach((element) => {
+                fileList.push(element[0].name);
+            })
+        }
 
         let result = false;
         fileList.forEach(name => {
@@ -173,7 +165,7 @@ class app {
         });
         return result;
     }
-    // add
+
     add(fileName) {
         if (workingDirectory === "local") return console.log("저장소가 선택되지 않았습니다.");
         if (this.checkFileName(fileName)) {
@@ -275,10 +267,10 @@ class app {
         }
     }
 
-    checkRepositoryName(repoName){
+    checkRepositoryName(repoName) {
         let result = false;
-        for(let i in repositoryList){
-            if(repositoryList[i].name === repoName){
+        for (let i in repositoryList) {
+            if (repositoryList[i].name === repoName) {
                 result = true;
             }
         }
@@ -286,7 +278,7 @@ class app {
     }
 
     clone(repoName, localName) {
-        if(this.checkRepositoryName(localName)){
+        if (this.checkRepositoryName(localName)) {
             console.log("중복된 이름입니다.");
             return;
         }
@@ -297,16 +289,14 @@ class app {
         console.log(`cloning ${localName} repository from ${repoName}...`);
     }
 
-    delete(repoName){
-        if(!this.checkRepositoryName(repoName)){
+    delete(repoName) {
+        if (!this.checkRepositoryName(repoName)) {
             console.log("존재하지 않는 저장소 입니다.");
             return;
         }
         delete repositoryList[repoName];
         console.log(`저장소 ${repoName}을(를) 삭제했습니다.`);
     }
-
-
 }
 
 
