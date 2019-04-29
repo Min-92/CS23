@@ -59,7 +59,7 @@ class app {
 
     excuteCommand(commandArray) {
         const action = commandArray.shift();
-        const regExp = /^init$|^status$|^checkout$|^new$|^add$|^commit$|^log$|^touch$|^push$|^clone$/;
+        const regExp = /^init$|^status$|^checkout$|^new$|^add$|^commit$|^log$|^touch$|^push$|^clone$|^delete$/;
         const matchRegExp = action.match(regExp);
         if (matchRegExp === null) {
             console.log("명령어가 올바르지 않습니다.");
@@ -297,7 +297,14 @@ class app {
         console.log(`cloning ${localName} repository from ${repoName}...`);
     }
 
-    
+    delete(repoName){
+        if(!this.checkRepositoryName(repoName)){
+            console.log("존재하지 않는 저장소 입니다.");
+            return;
+        }
+        delete repositoryList[repoName];
+        console.log(`저장소 ${repoName}을(를) 삭제했습니다.`);
+    }
 
 
 }
