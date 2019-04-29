@@ -5,13 +5,9 @@ const repositoryList = {};
 // [0]filename [1]tile [2]commit message
 const remoteList = {};
 
-// 저장소
-// // working directory/ staging area/ git repository/
-// // 속한 파일 name, time
 class repository {
     constructor(name) {
         this.name = name;
-        // this.fileArray = [];
         this.commitLog = [];
         this.area = {
             Working_Directory: [],
@@ -21,9 +17,6 @@ class repository {
     }
 }
 
-// 파일
-// // untracked / unmodified/ modified/ staged
-// // name, 소속 저장소
 class file {
     constructor(name, repository) {
         this.name = name;
@@ -66,7 +59,7 @@ class app {
 
     excuteCommand(commandArray) {
         const action = commandArray.shift();
-        const regExp = /^init$|^status$|^checkout$|^new$|^add$|^commit$|^log$|^touch$|^push$/;
+        const regExp = /^init$|^status$|^checkout$|^new$|^add$|^commit$|^log$|^touch$|^push$|^clone$/;
         const matchRegExp = action.match(regExp);
         if (matchRegExp === null) {
             console.log("명령어가 올바르지 않습니다.");
@@ -84,23 +77,24 @@ class app {
 
 
     init(repositoryName) {
+        if(this.checkRepositoryName(repositoryName)){
+            console.log("중복된 이름입니다.");
+            return;
+        }
         const repo = new repository(repositoryName);
         repositoryList[`${repositoryName}`] = repo;
         console.log(`created ${repositoryName} repository.`);
     }
 
-    // new
     newFile(fileName) {
         if (workingDirectory === "local") {
             console.log("저장소가 선택되지 않았습니다.");
             return;
         }
         const fl = new file(fileName, workingDirectory);
-        // repositoryList[`${workingDirectory}`].fileArray.push(fileName);
         repositoryList[`${workingDirectory}`].area.Working_Directory.push([fl, this.getTime()]);
 
     }
-    // (name) checkout 으로 파일선택후, 해당 디렉토리에 파일 생성 ,상태 untracked
 
     status(repositoryName) {
         if (repositoryName === undefined) {
@@ -115,10 +109,10 @@ class app {
 
             }
         } else if (repositoryName === "remote") {
-            if(workingDirectory === "local"){
+            if (workingDirectory === "local") {
                 console.log("선택된 저장소가 없습니다.");
             }
-            const lastCommit = remoteList[workingDirectory].commitLog[remoteList[workingDirectory].commitLog.length-1];
+            const lastCommit = remoteList[workingDirectory].commitLog[remoteList[workingDirectory].commitLog.length - 1];
             console.log(`Last commit   "${lastCommit[2]}"`);
             console.log(`${lastCommit[0]}      ${lastCommit[1]} `);
 
@@ -126,12 +120,12 @@ class app {
             if (this.checkRepoName(repositoryName)) {
                 const fileList = [];
                 const area = repositoryList[repositoryName].area;
-                for(let i in area){
-                    area[i].forEach((element)=>{
+                for (let i in area) {
+                    area[i].forEach((element) => {
                         fileList.push(element[0].name);
                     })
                 }
-                
+
                 console.log(`${repositoryName}/ ${fileList}`);
             } else {
                 console.log("저장소 이름이 올바르지 않습니다.");
@@ -150,7 +144,6 @@ class app {
         return result
     }
 
-    // checkout 
     checkout(repositoryName) {
         if (repositoryName === undefined) {
             workingDirectory = "local";
@@ -164,15 +157,18 @@ class app {
         console.log("저장소 이름이 올바르지 않습니다.");
 
     }
-    // //(name)  해당 저장소 선택, 프롬프트에 추가 /name/>
-    // // void 초기상태로 이동 , 프롬프트 />
-
-
 
     checkFileName(fileName) {
-        const fileArray = repositoryList[workingDirectory].fileArray;
+        const fileList = [];
+                const area = repositoryList[workingDirectory].area;
+                for (let i in area) {
+                    area[i].forEach((element) => {
+                        fileList.push(element[0].name);
+                    })
+                }
+
         let result = false;
-        fileArray.forEach(name => {
+        fileList.forEach(name => {
             if (fileName === name) result = true;
         });
         return result;
@@ -279,45 +275,29 @@ class app {
         }
     }
 
-    // clone(repoName, localName) {
-    //     //init 
-    //     const repo = new repository(localName);
-        
-    //     repo.area.Git_Repository = 
-    //     //
-    //     remoteList.repoName
-        
-    //     // class remote {
-    //         //     constructor(name) {
-    //             //         this.name = name;
-    //             //         this.commitLog = [];
-    //             //         this.repository = [];
-    //             //     }
-    //             // }
-                
-                
-    //             repositoryList[`${repositoryName}`] = repo;
+    checkRepositoryName(repoName){
+        let result = false;
+        for(let i in repositoryList){
+            if(repositoryList[i].name === repoName){
+                result = true;
+            }
+        }
+        return result;
+    }
 
-    // }
+    clone(repoName, localName) {
+        if(this.checkRepositoryName(localName)){
+            console.log("중복된 이름입니다.");
+            return;
+        }
+        const repo = new repository(localName);
+        repo.area.Git_Repository = remoteList[repoName].repository;
+        repo.commitLog = remoteList[repoName].commitLog;
+        repositoryList[localName] = repo;
+        console.log(`cloning ${localName} repository from ${repoName}...`);
+    }
 
-    //clone
-//     clone <repository_name> <local_name> 명령을 사용하면 remote에 있는 저장소 내용을 새로운 local_name으로 local에 복사한다.
-
-// 이 때 커밋 이력 log와 함께 최종 Git Repository에 있는 파일들을 함께 복사한다.
-
-// 기존에 local_name과 동일한 저장소 이름이 local에 있으면 중복된 이름이라고 안내한다.
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 }
